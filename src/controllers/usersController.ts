@@ -45,7 +45,7 @@ class UsersController {
 
     public async login(req: Request, res: Response) {
         const { username, password } = req.query;
-        await pool.query("SELECT * FROM usuarios u WHERE u.nombreUsuario LIKE ? AND u.password LIKE ?", [username, password], (err, result) => {
+        pool.query("SELECT * FROM usuarios u WHERE u.nombreUsuario LIKE ? AND u.password LIKE ?", [username, password], (err, result) => {
             if (Array.isArray(result) && result.length == 1) {
                 res.status(200).json({ user: result[0] });
             } else {
