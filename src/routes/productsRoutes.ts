@@ -11,6 +11,7 @@ class ProductsRoutes{
     }
 
     config(): void {
+        this.router.get('/catMenu/:id', productsController.getProdByCat);
         this.router.get('/', productsController.list);
         this.router.get('/:id', productsController.getOne);
         this.router.post('/',productsController.create);

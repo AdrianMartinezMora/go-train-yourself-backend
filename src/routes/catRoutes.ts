@@ -12,6 +12,7 @@ class CatRoutes{
 
     config(): void {
         this.router.get('/', catController.list);
+        this.router.get('/child', catController.childList);
         this.router.get('/:id', catController.getOne);
         this.router.post('/',catController.create);
         this.router.delete('/:id',catController.delete);

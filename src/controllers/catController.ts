@@ -11,6 +11,13 @@ class CatController {
         
     }
 
+    public async childList (req : Request,res: Response) {
+        pool.query('select * from categorias where id not in (0,1,2,3)',(err,result)=>{
+            res.json(result)
+        });
+        
+    }
+
     public async getOne (req : Request,res: Response) {
         const { id } = req.params;
         pool.query('select * from categorias where id = ?', [id],(err,result)=>{
