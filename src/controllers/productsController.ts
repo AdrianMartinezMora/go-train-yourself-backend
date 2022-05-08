@@ -13,15 +13,8 @@ class ProductsController {
 
     public async getProdByCat (req : Request,res: Response) {
         const { id } = req.params;
-        pool.query('SELECT P.* FROM productos P, categorias C, cat_prod CP WHERE C.id=? AND C.id=CP.id_cat AND CP.id_prod=P.id AND P.estado=1 GROUP BY P.id', [id],(err,result)=>{
-
-            if(Array.isArray(result) && result.length>0){
-                res.json(result)
-
-            }else{
-                
-                res.status(404).json({text:"The product doesn't exists"})
-            }
+        pool.query('SELECT P.* FROM productos P, categorias C, cat_prod CP WHERE C.id=? AND C.id=CP.id_cat AND CP.id_prod=P.id AND P.estado=1', [id],(err,result)=>{
+            res.json(result)
         });
     }
 

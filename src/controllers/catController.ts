@@ -12,7 +12,7 @@ class CatController {
     }
 
     public async childList (req : Request,res: Response) {
-        pool.query('select * from categorias where id not in (0,1,2,3)',(err,result)=>{
+        pool.query('select * from categorias where primaria IS NOT True',(err,result)=>{
             res.json(result)
         });
         
