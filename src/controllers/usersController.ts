@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { toEditorSettings } from 'typescript';
 
 import pool from '../database'
 
@@ -12,19 +11,32 @@ class UsersController {
 
     }
 
-    //Comprobación de registro de nuevo usuario
-    public async registerOk(req: Request, res: Response) {
+    //Comprobación de nombre de usuario
+    public async validUsername(req: Request, res: Response) {
         const { nombre } = req.params;
         pool.query('select * from usuarios where nombreUsuario = ?', [nombre], (err, result) => {
 
-            console.log(nombre)
-
             if (Array.isArray(result) && result.length == 0) {
-                res.json('ok')
+                res.json('valid')
 
             } else {
 
-                res.json('nook')
+                res.json('invalid')
+            }
+        });
+    }
+
+    //Comprobación de email de usuario
+    public async validEmail(req: Request, res: Response) {
+        const { email } = req.params;
+        pool.query('select * from usuarios where correo = ?', [email], (err, result) => {
+
+            if (Array.isArray(result) && result.length == 0) {
+                res.json('valid')
+
+            } else {
+
+                res.json('invalid')
             }
         });
     }
@@ -64,11 +76,9 @@ class UsersController {
         const { username, password } = req.query;
         pool.query("SELECT * FROM usuarios u WHERE u.nombreUsuario LIKE ? AND u.password LIKE ?", [username, password], (err, result) => {
             if (Array.isArray(result) && result.length == 1) {
-                //res.status(200).json({ user: result[0] });
-                res.json("loged");
+                res.status(200).json({ user: result[0] });
             } else {
-                res.json("notloged");
-                //res.status(401).json({ error: "User or password incorrect" });
+                res.status(401).json({ error: "User or password incorrect" });
             }
         });
     }

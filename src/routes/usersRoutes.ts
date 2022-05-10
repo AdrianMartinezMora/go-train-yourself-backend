@@ -12,7 +12,8 @@ class UsersRoutes{
 
     config(): void {
         this.router.get('/', usersController.list);
-        this.router.get('/regOk/:nombre', usersController.registerOk);
+        this.router.get('/userVal/:nombre', usersController.validUsername);
+        this.router.get('/emailVal/:nombre', usersController.validEmail);
         this.router.get('/:id', usersController.getOne);
         this.router.post('/',usersController.register);
         this.router.delete('/:id',usersController.delete);
