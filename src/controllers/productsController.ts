@@ -18,6 +18,19 @@ class ProductsController {
         });
     }
 
+    public async getProdBySearch (req : Request,res: Response) {
+        const { search } = req.params;
+        pool.query(`SELECT * FROM productos WHERE nombreProd like '%${search}%' and estado=1`,(err,result)=>{
+            if(Array.isArray(result) && result.length>0){
+                res.json(result)
+
+            }else{
+                
+                res.status(404).json({text:"There are no products with that name"})
+            }
+        });
+    }
+
     public async getOne (req : Request,res: Response) {
         const { id } = req.params;
         pool.query('select * from productos where id = ?', [id],(err,result)=>{
