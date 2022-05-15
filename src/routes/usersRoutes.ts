@@ -1,6 +1,7 @@
 import {Router} from 'express';
 
 import {usersController} from '../controllers/usersController';
+import JWTUtils from '../utils/jwt-utils';
 
 class UsersRoutes{
 
@@ -11,14 +12,14 @@ class UsersRoutes{
     }
 
     config(): void {
-        this.router.get('/', usersController.list);
+        this.router.get('/', JWTUtils.authenticateAdminToken, usersController.list);
         this.router.get('/userVal/:nombre', usersController.validUsername);
         this.router.get('/emailVal/:nombre', usersController.validEmail);
-        this.router.get('/:id', usersController.getOne);
-        this.router.post('/',usersController.register);
-        this.router.delete('/:id',usersController.delete);
-        this.router.put('/:id',usersController.update);
-        this.router.post('/login',usersController.login);
+        this.router.get('/:id', JWTUtils.authenticateToken, usersController.getOne);
+        this.router.post('/', usersController.register);
+        this.router.delete('/:id', JWTUtils.authenticateAdminToken,usersController.delete);
+        this.router.put('/:id', JWTUtils.authenticateAdminToken,usersController.update);
+        this.router.post('/login', usersController.login);
     }
 
 }

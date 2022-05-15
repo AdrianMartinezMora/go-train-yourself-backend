@@ -1,6 +1,7 @@
 import {Router} from 'express';
 
 import {ordersController} from '../controllers/ordersController';
+import JWTUtils from '../utils/jwt-utils';
 
 class OrdersRoutes{
 
@@ -11,9 +12,9 @@ class OrdersRoutes{
     }
 
     config(): void {
-        this.router.get('/', ordersController.list);
-        this.router.get('/:id', ordersController.getOne);
-        this.router.post('/',ordersController.create);
+        this.router.get('/', JWTUtils.authenticateToken, ordersController.list);
+        this.router.get('/:id', JWTUtils.authenticateToken, ordersController.getOne);
+        this.router.post('/', JWTUtils.authenticateToken, ordersController.create);
     }
 
 }

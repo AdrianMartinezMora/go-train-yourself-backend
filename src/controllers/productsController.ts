@@ -45,7 +45,7 @@ class ProductsController {
         });
     }
 
-    public async create (req : Request,res: Response): Promise<void>{
+    public async create(req : Request,res: Response): Promise<void>{
         await pool.promise().query('INSERT INTO productos set ?', [req.body]);
         res.json({message: 'Product saved'});
     }

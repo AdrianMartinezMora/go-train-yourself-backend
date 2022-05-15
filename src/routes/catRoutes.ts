@@ -1,6 +1,7 @@
 import {Router} from 'express';
 
 import {catController} from '../controllers/catController';
+import JWTUtils from '../utils/jwt-utils';
 
 class CatRoutes{
 
@@ -14,9 +15,9 @@ class CatRoutes{
         this.router.get('/', catController.list);
         this.router.get('/child', catController.childList);
         this.router.get('/:id', catController.getOne);
-        this.router.post('/',catController.create);
-        this.router.delete('/:id',catController.delete);
-        this.router.put('/:id',catController.update);
+        this.router.post('/', JWTUtils.authenticateAdminToken,catController.create);
+        this.router.delete('/:id', JWTUtils.authenticateAdminToken,catController.delete);
+        this.router.put('/:id', JWTUtils.authenticateAdminToken,catController.update);
     }
 
 }

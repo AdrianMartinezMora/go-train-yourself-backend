@@ -5,13 +5,17 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc -w",
-        "dev": "nodemon build/index.js"
+        "dev": "nodemon build/index.js",
+        "run:dev": "concurrently \"npx tsc --watch\" \"nodemon -q build/index.js\""
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
         "express": "^4.17.3",
+        "jsonwebtoken": "^8.5.1",
+        "md5-typescript": "^1.0.5",
         "morgan": "^1.10.0",
         "mysql2": "^2.3.3",
         "promise-mysql": "^5.1.0",

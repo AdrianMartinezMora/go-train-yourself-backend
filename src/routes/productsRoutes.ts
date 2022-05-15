@@ -1,6 +1,7 @@
 import {Router} from 'express';
 
 import {productsController} from '../controllers/productsController';
+import JWTUtils from '../utils/jwt-utils';
 
 class ProductsRoutes{
 
@@ -15,9 +16,9 @@ class ProductsRoutes{
         this.router.get('/search/:search', productsController.getProdBySearch);
         this.router.get('/', productsController.list);
         this.router.get('/:id', productsController.getOne);
-        this.router.post('/',productsController.create);
-        this.router.delete('/:id',productsController.delete);
-        this.router.put('/:id',productsController.update);
+        this.router.post('/', JWTUtils.authenticateAdminToken, productsController.create);
+        this.router.delete('/:id', JWTUtils.authenticateAdminToken, productsController.delete);
+        this.router.put('/:id', JWTUtils.authenticateAdminToken, productsController.update);
     }
 
 }

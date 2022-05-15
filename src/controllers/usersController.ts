@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 
 import pool from '../database'
+import JWTUtils from '../utils/jwt-utils';
+import { Md5 } from 'md5-typescript';
 
 class UsersController {
 
@@ -73,10 +75,13 @@ class UsersController {
     }
 
     public async login(req: Request, res: Response) {
-        const { username, password } = req.query;
-        pool.query("SELECT * FROM usuarios u WHERE u.nombreUsuario LIKE ? AND u.password LIKE ?", [username, password], (err, result) => {
+        const { username, password } = req.body;
+        pool.query("SELECT * FROM usuarios u WHERE u.nombreUsuario LIKE ? AND u.password LIKE ?", [username, Md5.init(password)], (err, result) => {
             if (Array.isArray(result) && result.length == 1) {
-                res.status(200).json({ user: result[0] });
+
+                let token = JWTUtils.generateAccessToken(result[0]);
+                
+                res.status(200).json({ token, user: result[0] });
             } else {
                 res.status(401).json({ error: "User or password incorrect" });
             }
