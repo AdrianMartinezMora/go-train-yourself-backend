@@ -45,10 +45,19 @@ class ProductsController {
         });
     }
 
+
+    public async create(req : Request,res: Response){
+        pool.query('INSERT INTO productos set ?', [req.body],(err,result)=>{
+                res.json(result)
+        });
+    }
+
+    /*
     public async create(req : Request,res: Response): Promise<void>{
         await pool.promise().query('INSERT INTO productos set ?', [req.body]);
         res.json({message: 'Product saved'});
     }
+    */
 
     public async update (req : Request,res: Response){
         const{id}=req.params;

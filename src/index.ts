@@ -7,6 +7,7 @@ import productsRoutes from './routes/productsRoutes';
 import usersRoutes from './routes/usersRoutes';
 import ordersRoutes from './routes/ordersRoutes';
 import catRoutes from './routes/catRoutes';
+import catProdRoutes from './routes/cat-prod-Routes';
 
 class Server{
 
@@ -33,6 +34,7 @@ class Server{
         this.app.use('/api/usuarios',usersRoutes);
         this.app.use('/api/pedidos',ordersRoutes);
         this.app.use('/api/categorias',catRoutes);
+        this.app.use('/api/cat-prod',catProdRoutes);
 
     }
 
