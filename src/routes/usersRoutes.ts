@@ -12,7 +12,7 @@ class UsersRoutes{
     }
 
     config(): void {
-        this.router.get('/', JWTUtils.authenticateAdminToken, usersController.list);
+        this.router.get('/', usersController.list);
         this.router.get('/userVal/:nombre', usersController.validUsername);
         this.router.get('/emailVal/:nombre', usersController.validEmail);
         this.router.get('/:id', JWTUtils.authenticateToken, usersController.getOne);

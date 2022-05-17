@@ -5,14 +5,14 @@ import pool from '../database'
 class CatController {
 
     public async list (req : Request,res: Response) {
-        pool.query('select * from categorias',(err,result)=>{
+        pool.query('select * from categorias where estado=1',(err,result)=>{
             res.json(result)
         });
         
     }
 
     public async childList (req : Request,res: Response) {
-        pool.query('select * from categorias where primaria IS NOT True',(err,result)=>{
+        pool.query('select * from categorias where primaria IS NOT True and estado=1',(err,result)=>{
             res.json(result)
         });
         
@@ -45,9 +45,9 @@ class CatController {
 
     public async delete (req : Request,res: Response){
         const{id}=req.params;
-        await pool.promise().query('DELETE FROM categorias WHERE id = ?', [id]);
+        await pool.promise().query('UPDATE categorias set estado = 0 WHERE id =?', [id]);
         res.json({message: 'Category deleted'});
-    }
+    } 
 
 }
 

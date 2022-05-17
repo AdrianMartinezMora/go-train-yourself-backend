@@ -7,7 +7,7 @@ import { Md5 } from 'md5-typescript';
 class UsersController {
 
     public async list(req: Request, res: Response) {
-        pool.query('select * from usuarios', (err, result) => {
+        pool.query('select * from usuarios where estado = 1', (err, result) => {
             res.json(result)
         });
 
@@ -68,11 +68,11 @@ class UsersController {
         res.json({ message: 'User updated' });
     }
 
-    public async delete(req: Request, res: Response) {
-        const { id } = req.params;
-        await pool.promise().query('DELETE FROM usuarios WHERE id = ?', [id]);
-        res.json({ message: 'User deleted' });
-    }
+    public async delete (req : Request,res: Response){
+        const{id}=req.params;
+        await pool.promise().query('UPDATE usuarios set estado = 0 WHERE id =?', [id]);
+        res.json({message: 'User deleted'});
+    } 
 
     public async login(req: Request, res: Response) {
         const { username, password } = req.body;
