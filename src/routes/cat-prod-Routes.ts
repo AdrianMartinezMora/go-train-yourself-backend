@@ -13,6 +13,7 @@ class CatRoutes{
 
     config(): void {
         this.router.post('/', JWTUtils.authenticateAdminToken,catProdController.create);
+        this.router.delete('/:id', JWTUtils.authenticateAdminToken,catProdController.delete);
     }
 
 }
