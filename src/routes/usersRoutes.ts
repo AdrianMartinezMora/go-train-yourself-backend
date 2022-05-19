@@ -18,7 +18,7 @@ class UsersRoutes{
         this.router.get('/:id', JWTUtils.authenticateToken, usersController.getOne);
         this.router.post('/', usersController.register);
         this.router.delete('/:id', JWTUtils.authenticateAdminToken,usersController.delete);
-        this.router.put('/:id', JWTUtils.authenticateAdminToken,usersController.update);
+        this.router.put('/:id', JWTUtils.authenticateToken,usersController.update);
         this.router.post('/login', usersController.login);
     }
 
