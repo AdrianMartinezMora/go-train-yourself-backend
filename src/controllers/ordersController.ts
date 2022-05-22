@@ -26,8 +26,18 @@ class OrdersController {
     }
 
     public async create (req : Request,res: Response): Promise<void>{
-        await pool.promise().query('INSERT INTO pedidos set ?', [req.body]);
-        res.json({message: 'Order saved'});
+        let pedido = {
+            idUsuario: req.body.idUsuario,
+            locEntrega: req.body.locEntrega
+        }
+        pool.query('INSERT INTO pedidos set ?', [pedido], async (err, result: any, fields) => {
+            if (err) throw err;
+
+            for(let i = 0; i < req.body.detalle.length; i++){
+                await pool.promise().query('INSERT INTO detallePedidos set ?', [{...req.body.detalle[i], idPedido: result.insertId}]);
+            }
+            res.json({message: 'Order saved'});
+        });
     }
 
 }

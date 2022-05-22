@@ -13,7 +13,7 @@ class ProductsController {
 
     public async getProdByCat (req : Request,res: Response) {
         const { id } = req.params;
-        pool.query('SELECT P.* FROM productos P, categorias C, cat_prod CP WHERE C.id=? AND C.id=CP.id_cat AND CP.id_prod=P.id AND P.estado=1', [id],(err,result)=>{
+        pool.query('SELECT P.* FROM productos P, categorias C, cat_prod CP WHERE C.id=? AND C.id=CP.idCat AND CP.idProd=P.id AND P.estado=1', [id],(err,result)=>{
             res.json(result)
         });
     }

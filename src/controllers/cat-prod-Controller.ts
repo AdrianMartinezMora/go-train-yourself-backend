@@ -11,7 +11,7 @@ class CatProdController {
 
     public async delete (req : Request,res: Response){
         const{id}=req.params;
-        await pool.promise().query('DELETE FROM cat_prod WHERE id_prod = ?;', [id]);
+        await pool.promise().query('DELETE FROM cat_prod WHERE idProd = ?;', [id]);
         res.json({message: 'ProdCats deleted'});
     } 
 
