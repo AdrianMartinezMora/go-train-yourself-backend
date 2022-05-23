@@ -13,7 +13,8 @@ class OrdersRoutes{
 
     config(): void {
         this.router.get('/', JWTUtils.authenticateToken, ordersController.list);
-        this.router.get('/:id', JWTUtils.authenticateToken, ordersController.getOne);
+        this.router.get('/:id', JWTUtils.authenticateToken, ordersController.userOrderlist);
+        this.router.get('/orderDet/:id', JWTUtils.authenticateToken, ordersController.detallePedido);
         this.router.post('/', JWTUtils.authenticateToken, ordersController.create);
     }
 
