@@ -20,21 +20,25 @@ class OrdersController {
 
             }else{
                 
-                res.status(404).json({text:"The category doesn't exists"})
+                res.status(404).json({text:"The user doesn't have orders"})
             }
         });        
     }
 
     public async detallePedido (req : Request,res: Response) {
         const { id } = req.params;
-        pool.query('SELECT p.id,p.nombreProd,p.precio,p.foto,p.precio * dp.cantidad AS precioTProd, pe.precioTotal FROM detallepedidos dp,productos p, pedidos pe WHERE pe.id=? GROUP BY p.id', [id],(err,result)=>{
+        pool.query('SELECT p.id as idPed,pt.id,pt.nombreProd,pt.precio,pt.foto, p.precioTotal, ROUND((dp.cantidad * pt.precio),2) AS Precio_Detalle,dp.cantidad'
+        + ' FROM pedidos p, detallePedidos dp, productos pt'
+        + ' WHERE dp.idPedido = p.id'
+        + ' AND dp.idProducto = pt.id'
+        + ' AND dp.idPedido = ?', [id],(err,result)=>{
 
             if(Array.isArray(result) && result.length>0){
                 res.json(result)
 
             }else{
                 
-                res.status(404).json({text:"The category doesn't exists"})
+                res.status(404).json({text:"This order doesn't exist"})
             }
         });        
     }
@@ -49,6 +53,9 @@ class OrdersController {
             if (err) throw err;
 
             for(let i = 0; i < req.body.detalle.length; i++){
+                console.log(req.body.detalle[i].cantidad + '/' + req.body.detalle[i].idProducto);
+                
+                await pool.promise().query("UPDATE productos set stock = stock - ? WHERE id =?", [req.body.detalle[i].cantidad, req.body.detalle[i].idProducto ]);
                 await pool.promise().query('INSERT INTO detallePedidos set ?', [{...req.body.detalle[i], idPedido: result.insertId}]);
             }
             res.json({message: 'Order saved'});
