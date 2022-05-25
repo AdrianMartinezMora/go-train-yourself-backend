@@ -13,10 +13,12 @@ class CatRoutes{
 
     config(): void {
         this.router.get('/', catController.list);
+        this.router.get('/dis/', catController.disList);
         this.router.get('/child', catController.childList);
         this.router.get('/:id', catController.getOne);
         this.router.post('/', JWTUtils.authenticateAdminToken,catController.create);
         this.router.delete('/:id', JWTUtils.authenticateAdminToken,catController.delete);
+        this.router.delete('/dis/:id', JWTUtils.authenticateAdminToken,catController.enable);
         this.router.put('/:id', JWTUtils.authenticateAdminToken,catController.update);
     }
 

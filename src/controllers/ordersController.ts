@@ -5,7 +5,7 @@ import pool from '../database'
 class OrdersController {
 
     public async list (req : Request,res: Response) {
-        pool.query('select * from pedidos',(err,result)=>{
+        pool.query('select * from pedidos ORDER by id desc',(err,result)=>{
             res.json(result)
         });
         
@@ -13,7 +13,7 @@ class OrdersController {
 
     public async userOrderlist (req : Request,res: Response) {
         const { id } = req.params;
-        pool.query('select * from pedidos where idUsuario = ?', [id],(err,result)=>{
+        pool.query('select * from pedidos where idUsuario = ? ORDER by id desc', [id],(err,result)=>{
 
             if(Array.isArray(result) && result.length>0){
                 res.json(result)

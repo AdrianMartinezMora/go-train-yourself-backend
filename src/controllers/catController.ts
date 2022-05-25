@@ -11,6 +11,13 @@ class CatController {
         
     }
 
+    public async disList (req : Request,res: Response) {
+        pool.query('select * from categorias where estado=0',(err,result)=>{
+            res.json(result)
+        });
+        
+    }
+
     public async childList (req : Request,res: Response) {
         pool.query('select * from categorias where primaria IS NOT True and estado=1',(err,result)=>{
             res.json(result)
@@ -47,6 +54,12 @@ class CatController {
         const{id}=req.params;
         await pool.promise().query('UPDATE categorias set estado = 0 WHERE id =?', [id]);
         res.json({message: 'Category deleted'});
+    } 
+
+    public async enable (req : Request,res: Response){
+        const{id}=req.params;
+        await pool.promise().query('UPDATE categorias set estado = 1 WHERE id =?', [id]);
+        res.json({message: 'Category enabled'});
     } 
 
 }

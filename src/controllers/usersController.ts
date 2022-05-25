@@ -13,6 +13,13 @@ class UsersController {
 
     }
 
+    public async disList(req: Request, res: Response) {
+        pool.query('select * from usuarios where estado = 0', (err, result) => {
+            res.json(result)
+        });
+
+    }
+
     //Comprobación de nombre de usuario
     public async validUsername(req: Request, res: Response) {
         const { nombre } = req.params;
@@ -72,6 +79,12 @@ class UsersController {
         const{id}=req.params;
         await pool.promise().query('UPDATE usuarios set estado = 0 WHERE id =?', [id]);
         res.json({message: 'User deleted'});
+    } 
+
+    public async enable (req : Request,res: Response){
+        const{id}=req.params;
+        await pool.promise().query('UPDATE usuarios set estado = 1 WHERE id =?', [id]);
+        res.json({message: 'User enabled'});
     } 
 
     public async login(req: Request, res: Response) {

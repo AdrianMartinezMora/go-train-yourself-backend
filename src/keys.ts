@@ -3,9 +3,10 @@ export default {
     database:{
 
         host: 'localhost',
+        charset:'utf8',
         user: 'root',
         password: 'pass',
-        database: 'GTYDB',
+        database: 'bbdd',
         typeCast: function castField( field, useDefaultTypeCasting ) {
 
             // We only want to cast bit fields that have a single-bit in them. If the field
